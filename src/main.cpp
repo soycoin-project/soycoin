@@ -2800,6 +2800,7 @@ bool InitBlockIndex() {
             block.nTime    = 1594353798;
             block.nNonce   = 385559762;
         }
+    }
 
 void PrintBlockTree()
 {
