@@ -2800,6 +2800,32 @@ bool InitBlockIndex() {
             block.nTime    = 1594353798;
             block.nNonce   = 385559762;
         }
+        //// debug print
+        uint256 hash = block.GetHash();
+        printf("%s\n", hash.ToString().c_str());
+        printf("%s\n", hashGenesisBlock.ToString().c_str());
+        printf("%s\n", block.hashMerkleRoot.ToString().c_str());
+        assert(block.hashMerkleRoot == uint256("0xe245093d73f571719ad85331c39bec9c81828fd09be9f33c73eaa509cad8cb1c"));
+        block.print();
+        assert(hash == hashGenesisBlock);
+
+        // Start new block file
+        try {
+            unsigned int nBlockSize = ::GetSerializeSize(block, SER_DISK, CLIENT_VERSION);
+            CDiskBlockPos blockPos;
+            CValidationState state;
+            if (!FindBlockPos(state, blockPos, nBlockSize+8, 0, block.nTime))
+                return error("LoadBlockIndex() : FindBlockPos failed");
+            if (!block.WriteToDisk(blockPos))
+                return error("LoadBlockIndex() : writing genesis block to disk failed");
+            if (!block.AddToBlockIndex(state, blockPos))
+                return error("LoadBlockIndex() : genesis block not accepted");
+        } catch(std::runtime_error &e) {
+            return error("LoadBlockIndex() : failed to initialize block database: %s", e.what());
+        }
+    }
+
+        return true;
     }
 
 void PrintBlockTree()
