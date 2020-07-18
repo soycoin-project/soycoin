@@ -1,0 +1,9 @@
+Building Soycoin
+
+See doc/readme-qt.rst for instructions on building Soycoin-Qt,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of Soycoin.
+
+See doc/build-*.txt for instructions on building soycoind,
+the intended-for-services, no-graphical-interface, reference
+implementation of Soycoin.
